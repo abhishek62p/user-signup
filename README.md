@@ -17,6 +17,7 @@ This project is a simple user authentication system built using **Node.js**, **E
 - **MongoDB** - NoSQL database
 - **Mongoose** - ODM (Object Data Modeling) for MongoDB
 - **JWT** (JSON Web Token) - For authentication
+- **POSTMAN** For API Testing
 
 ## Prerequisites
 
