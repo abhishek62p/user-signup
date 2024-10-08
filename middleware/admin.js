@@ -1,25 +1,26 @@
-const { Admin } = require('../db/index.model');
+const jwt = require('jsonwebtoken');
+const { JWT_SECRET } = require('../config');
 
 // Midlleware for handling auth
 function adminMiddleware(req, res, next) {
     // Implement admin auth logic
     // you need to check for the exact headers and validate the admin from the admin DB
-    const username = req.headers.username;
-    const password = req.headers.password;
+    const token = req.headers.authorization;
+    const words  = token.split(" ");
+    const jwtToken = words[1];
+    const decodedValue = jwt.verify(jwtToken, JWT_SECRET);
 
-    Admin.findOne({
-        username: username,
-        password: password
-    })
-    .then(function(value) {
-        if(value) {
-            next();
-        } else {
-            res.status(403).json({
-                msg: 'User doesnt exist'
-            })
-        }
-    })
+    console.log(`words: ${words}`)
+    console.log(`jwt token: ${jwtToken}`)
+    console.log(`decodedValue: ${decodedValue}`)
+    if (decodedValue.username) {
+        console.log(`decodedValue: ${decodedValue.username}`)
+        next();
+    } else {
+        res.status(403).json({
+            msg: 'You are not Authenthicated'
+        })
+    }
 }
 
 module.exports = adminMiddleware;
